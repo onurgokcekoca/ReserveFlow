@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ReserveFlow.Search.Application/ReserveFlow.Search.Application.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Presentation/ReserveFlow.Shared.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

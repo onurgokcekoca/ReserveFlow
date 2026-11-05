@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="../ReserveFlow.Booking.Application/ReserveFlow.Booking.Application.csproj" />
+    <ProjectReference Include="../ReserveFlow.Booking.Domain/ReserveFlow.Booking.Domain.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Application/ReserveFlow.Shared.Application.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Kernel/ReserveFlow.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Presentation/ReserveFlow.Shared.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

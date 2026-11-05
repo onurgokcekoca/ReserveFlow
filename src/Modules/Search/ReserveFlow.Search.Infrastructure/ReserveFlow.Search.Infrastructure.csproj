@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Elastic.Clients.Elasticsearch" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
+    <PackageReference Include="RabbitMQ.Client" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" />
+
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ReserveFlow.Search.Application/ReserveFlow.Search.Application.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Infrastructure/ReserveFlow.Shared.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

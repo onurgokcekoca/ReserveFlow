@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AppDesignerFolder>Inventories</AppDesignerFolder>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ReserveFlow.Inventory.Application/ReserveFlow.Inventory.Application.csproj" />
+    <ProjectReference Include="../ReserveFlow.Inventory.Domain/ReserveFlow.Inventory.Domain.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Application/ReserveFlow.Shared.Application.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Kernel/ReserveFlow.Shared.Kernel.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Presentation/ReserveFlow.Shared.Presentation.csproj" />
+  </ItemGroup>
+
+</Project>

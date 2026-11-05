@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>reserveflow-api</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../Modules/Booking/ReserveFlow.Booking.Infrastructure/ReserveFlow.Booking.Infrastructure.csproj" />
+    <ProjectReference Include="../../Modules/Booking/ReserveFlow.Booking.Presentation/ReserveFlow.Booking.Presentation.csproj" />
+    <ProjectReference Include="../../Modules/Catalog/ReserveFlow.Catalog.Infrastructure/ReserveFlow.Catalog.Infrastructure.csproj" />
+    <ProjectReference Include="../../Modules/Catalog/ReserveFlow.Catalog.Presentation/ReserveFlow.Catalog.Presentation.csproj" />
+    <ProjectReference Include="../../Modules/Inventory/ReserveFlow.Inventory.Infrastructure/ReserveFlow.Inventory.Infrastructure.csproj" />
+    <ProjectReference Include="../../Modules/Inventory/ReserveFlow.Inventory.Presentation/ReserveFlow.Inventory.Presentation.csproj" />
+    <ProjectReference Include="../../Modules/Notifications/ReserveFlow.Notifications.Infrastructure/ReserveFlow.Notifications.Infrastructure.csproj" />
+    <ProjectReference Include="../../Modules/Search/ReserveFlow.Search.Application/ReserveFlow.Search.Application.csproj" />
+    <ProjectReference Include="../../Modules/Search/ReserveFlow.Search.Infrastructure/ReserveFlow.Search.Infrastructure.csproj" />
+    <ProjectReference Include="../../Modules/Search/ReserveFlow.Search.Presentation/ReserveFlow.Search.Presentation.csproj" />
+    <ProjectReference Include="../../Shared/ReserveFlow.Shared.Infrastructure/ReserveFlow.Shared.Infrastructure.csproj" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+     <PrivateAssets>all</PrivateAssets>
+     <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../ReserveFlow.Catalog.Domain/ReserveFlow.Catalog.Domain.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Application/ReserveFlow.Shared.Application.csproj" />
+    <ProjectReference Include="../../../Shared/ReserveFlow.Shared.Kernel/ReserveFlow.Shared.Kernel.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+
+</Project>

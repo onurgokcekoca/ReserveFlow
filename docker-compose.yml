@@ -1,0 +1,132 @@
+# Local development stack. Copy .env.example to .env before running:
+#   cp .env.example .env
+#   docker compose up -d
+services:
+  postgres:
+    image: postgres:17
+    container_name: reserveflow-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-reserveflow}
+      POSTGRES_USER: ${POSTGRES_USER:-reserveflow}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env (see .env.example)}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - reserveflow-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: reserveflow-rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-reserveflow}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:?Set RABBITMQ_PASSWORD in .env (see .env.example)}
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:8-alpine
+    container_name: reserveflow-redis
+    ports:
+      - "127.0.0.1:6379:6379"
+    command:
+      - redis-server
+      - --maxmemory
+      - 128mb
+      - --maxmemory-policy
+      - allkeys-lru
+      - --save
+      - ""
+      - --appendonly
+      - "no"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.3.3
+    container_name: reserveflow-elasticsearch
+    environment:
+      - discovery.type=single-node
+      # Security is disabled for local development only; the port is bound to localhost.
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    ports:
+      - "127.0.0.1:9200:9200"
+    volumes:
+      - reserveflow-elasticsearch-data:/usr/share/elasticsearch/data
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:9200/_cluster/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:9.3.3
+    container_name: reserveflow-kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+    ports:
+      - "127.0.0.1:5601:5601"
+    depends_on:
+      elasticsearch:
+        condition: service_healthy
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reserveflow-api
+    ports:
+      - "127.0.0.1:8085:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: http://+:8080
+
+      Database__ApplyMigrationsOnStartup: "true"
+
+      # PostgreSQL
+      ConnectionStrings__CatalogConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-reserveflow};Username=${POSTGRES_USER:-reserveflow};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__InventoryConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-reserveflow};Username=${POSTGRES_USER:-reserveflow};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__BookingConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-reserveflow};Username=${POSTGRES_USER:-reserveflow};Password=${POSTGRES_PASSWORD}"
+      ConnectionStrings__NotificationConnection: "Host=postgres;Port=5432;Database=${POSTGRES_DB:-reserveflow};Username=${POSTGRES_USER:-reserveflow};Password=${POSTGRES_PASSWORD}"
+
+      # RabbitMQ
+      RabbitMq__HostName: rabbitmq
+      RabbitMq__Port: "5672"
+      RabbitMq__UserName: ${RABBITMQ_USER:-reserveflow}
+      RabbitMq__Password: ${RABBITMQ_PASSWORD}
+
+      # Redis
+      Redis__Enabled: "true"
+      Redis__ConnectionString: redis:6379
+
+      # Elasticsearch
+      Elasticsearch__Url: http://elasticsearch:9200
+      Elasticsearch__IndexName: reserveflow-properties
+
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      elasticsearch:
+        condition: service_healthy
+
+volumes:
+  reserveflow-postgres-data:
+  reserveflow-elasticsearch-data:
